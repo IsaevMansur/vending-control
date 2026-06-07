@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: vmc
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vmc
+    driver-class-name: org.postgresql.Driver
+    username: muku
+    password: root
+
+  jpa:
+    properties:
+      hibernate:
+        default_schema: vmc
+        show_sql: true
+        format_sql: true
