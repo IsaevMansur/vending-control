@@ -8,11 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,13 +33,6 @@ public class User {
   )
   private Long id;
 
-  @OneToMany(
-      cascade = CascadeType.ALL,
-      mappedBy = "user",
-      orphanRemoval = true
-  )
-  private Set<Maintenance> maintenances;
-
   @Column(nullable = false)
   private String surname;
 
@@ -53,22 +44,15 @@ public class User {
 
   @OneToOne(
       optional = false,
-      mappedBy = "user"
+      orphanRemoval = true,
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL
   )
-  private ContactData contactData;
+  private Contacts contacts;
 
   @ManyToOne(
       fetch = FetchType.LAZY,
       optional = false
   )
   private Role role;
-
-  public void addMaintenance(Maintenance ref) {
-    maintenances.add(ref);
-    ref.setUser(this);
-  }
-
-  public void removeMaintenance(Maintenance ref) {
-    maintenances.remove(ref);
-  }
 }
