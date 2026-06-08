@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.ggkit.ch.prof.vmc.dto.create.InstallationCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.create.MachineCreateDto;
+import ru.ggkit.ch.prof.vmc.dto.create.MaintenanceCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.create.PaymentTypeCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.read.MachineReadDto;
 import ru.ggkit.ch.prof.vmc.dto.update.MachineUpdateDto;
@@ -37,7 +38,16 @@ public class MachineController {
     return ResponseEntity.created(uri).body(savedId);
   }
 
-  @PostMapping("paymentType")
+  @PostMapping("maintenances")
+  public ResponseEntity<Long> createMaintenance(
+      @RequestBody @Valid MaintenanceCreateDto maintenanceReadDto,
+      UriComponentsBuilder builder) {
+    Long savedId = service.createMaintenance(maintenanceReadDto);
+    URI uri = builder.path("{id}").buildAndExpand(savedId).toUri();
+    return ResponseEntity.created(uri).body(savedId);
+  }
+
+  @PostMapping("paymentTypes")
   public ResponseEntity<Long> createPaymentType(
       @RequestBody @Valid PaymentTypeCreateDto paymentTypeCreateDto,
       UriComponentsBuilder builder) {
@@ -46,7 +56,7 @@ public class MachineController {
     return ResponseEntity.created(uri).body(savedId);
   }
 
-  @PatchMapping("installation")
+  @PatchMapping("installations")
   public ResponseEntity<Void> changeInstallation(
       @RequestBody @Valid InstallationCreateDto installationCreateDto) {
     service.changeInstallation(installationCreateDto);

@@ -9,18 +9,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ggkit.ch.prof.vmc.dto.create.InstallationCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.create.MachineCreateDto;
+import ru.ggkit.ch.prof.vmc.dto.create.MaintenanceCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.create.PaymentTypeCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.read.MachineReadDto;
 import ru.ggkit.ch.prof.vmc.dto.update.MachineUpdateDto;
 import ru.ggkit.ch.prof.vmc.entity.Income;
 import ru.ggkit.ch.prof.vmc.entity.Installation;
 import ru.ggkit.ch.prof.vmc.entity.Machine;
+import ru.ggkit.ch.prof.vmc.entity.Maintenance;
 import ru.ggkit.ch.prof.vmc.entity.PaymentType;
+import ru.ggkit.ch.prof.vmc.entity.User;
 import ru.ggkit.ch.prof.vmc.mapper.MachineMapper;
 import ru.ggkit.ch.prof.vmc.repository.IncomeRepository;
 import ru.ggkit.ch.prof.vmc.repository.InstallationRepository;
 import ru.ggkit.ch.prof.vmc.repository.MachineRepository;
+import ru.ggkit.ch.prof.vmc.repository.MaintenanceRepository;
 import ru.ggkit.ch.prof.vmc.repository.PaymentTypeRepository;
+import ru.ggkit.ch.prof.vmc.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +39,10 @@ public class MachineService {
 
   private final IncomeRepository incomeRepo;
 
+  private final UserRepository userRepo;
+
+  private final MaintenanceRepository maintenanceRepo;
+
   private final MachineMapper mapper;
 
   @Transactional
@@ -44,6 +53,19 @@ public class MachineService {
     toSave.setPaymentTypes(paymentTypes);
     Machine save = machineRepo.save(toSave);
     return save.getId();
+  }
+
+  @Transactional
+  public Long createMaintenance(@NonNull MaintenanceCreateDto dto) {
+    Maintenance toSave = mapper.createToMaintenance(dto);
+    Machine machine = machineRepo.findById(dto.machineId())
+        .orElseThrow(() -> new EntityNotFoundException("No suitable machine"));
+    User user = userRepo.findById(dto.userId())
+        .orElseThrow(() -> new EntityNotFoundException("No suitable user"));
+    toSave.setMachine(machine);
+    toSave.setUser(user);
+    Maintenance saved = maintenanceRepo.save(toSave);
+    return saved.getId();
   }
 
   @Transactional

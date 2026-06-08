@@ -11,6 +11,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import ru.ggkit.ch.prof.vmc.dto.create.InstallationCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.create.MachineCreateDto;
+import ru.ggkit.ch.prof.vmc.dto.create.MaintenanceCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.create.PaymentTypeCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.read.IncomeReadDto;
 import ru.ggkit.ch.prof.vmc.dto.read.InstallationReadDto;
@@ -19,6 +20,7 @@ import ru.ggkit.ch.prof.vmc.dto.update.MachineUpdateDto;
 import ru.ggkit.ch.prof.vmc.entity.Income;
 import ru.ggkit.ch.prof.vmc.entity.Installation;
 import ru.ggkit.ch.prof.vmc.entity.Machine;
+import ru.ggkit.ch.prof.vmc.entity.Maintenance;
 import ru.ggkit.ch.prof.vmc.entity.PaymentType;
 
 @Mapper(componentModel = "spring")
@@ -26,14 +28,14 @@ public interface MachineMapper {
 
   //create
   @Mapping(target = "paymentTypes", ignore = true)
-  @Mapping(target = "inStocks", ignore = true)
-  @Mapping(target = "sales", ignore = true)
   Machine createToMachine(MachineCreateDto dto);
 
   @Mapping(target = "id", ignore = true)
-  @Mapping(target = "machines", ignore = true)
-  @Mapping(target = "sales", ignore = true)
   PaymentType createToPaymentType(PaymentTypeCreateDto dto);
+
+  @Mapping(target = "machine", ignore = true)
+  @Mapping(target = "user", ignore = true)
+  Maintenance createToMaintenance(MaintenanceCreateDto dto);
 
   //read
   @Mapping(target = "installation", source = "installations", qualifiedByName = "getInstallation")

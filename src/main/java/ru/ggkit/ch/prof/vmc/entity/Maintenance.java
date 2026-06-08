@@ -48,6 +48,12 @@ public class Maintenance {
   private Set<String> problems;
 
   @ManyToOne(
+      fetch = FetchType.LAZY,
+      optional = false
+  )
+  private Machine machine;
+
+  @ManyToOne(
       optional = false,
       fetch = FetchType.LAZY
   )

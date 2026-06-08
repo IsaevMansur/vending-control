@@ -56,25 +56,6 @@ public class Machine {
   )
   private Set<Installation> installations;
 
-  @OneToMany(
-      cascade = CascadeType.ALL,
-      mappedBy = "machine",
-      orphanRemoval = true
-  )
-  private Set<InStock> inStocks;
-
-  @OneToMany(mappedBy = "machine")
-  private Set<Sale> sales;
-
-  public void addInStock(InStock ref) {
-    inStocks.add(ref);
-    ref.setMachine(this);
-  }
-
-  public void removeInStock(InStock ref) {
-    inStocks.remove(ref);
-  }
-
   public void addInstallation(Installation ref) {
     installations.add(ref);
     ref.setMachine(this);
