@@ -9,7 +9,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
+import ru.ggkit.ch.prof.vmc.dto.create.InstallationCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.create.MachineCreateDto;
+import ru.ggkit.ch.prof.vmc.dto.create.PaymentTypeCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.read.IncomeReadDto;
 import ru.ggkit.ch.prof.vmc.dto.read.InstallationReadDto;
 import ru.ggkit.ch.prof.vmc.dto.read.MachineReadDto;
@@ -26,7 +28,12 @@ public interface MachineMapper {
   @Mapping(target = "paymentTypes", ignore = true)
   @Mapping(target = "inStocks", ignore = true)
   @Mapping(target = "sales", ignore = true)
-  Machine createToEntity(MachineCreateDto dto);
+  Machine createToMachine(MachineCreateDto dto);
+
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "machines", ignore = true)
+  @Mapping(target = "sales", ignore = true)
+  PaymentType createToPaymentType(PaymentTypeCreateDto dto);
 
   //read
   @Mapping(target = "installation", source = "installations", qualifiedByName = "getInstallation")
@@ -77,4 +84,9 @@ public interface MachineMapper {
         .filter(Installation::isActive)
         .findFirst();
   }
+
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "machine", ignore = true)
+  @Mapping(target = "income", ignore = true)
+  Installation createToInstallation(InstallationCreateDto dto);
 }
