@@ -9,7 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,10 +44,8 @@ public class InStock {
   private Product product;
 
   @Column(nullable = false)
-  @Min(0)
   private int stock;
 
   @Column(nullable = false)
-  @Min(0)
   private int minimumStock;
 }

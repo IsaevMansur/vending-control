@@ -11,7 +11,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,15 +45,12 @@ public class Installation {
   @Column(nullable = false)
   private LocalDate installedAt;
 
-  private LocalDate uninstalledAt;
+  @Column(nullable = false)
+  private boolean isActive;
 
   @OneToOne(
       optional = false,
       mappedBy = "installation"
   )
   private Income income;
-
-  public boolean isActive() {
-    return Objects.isNull(uninstalledAt);
-  }
 }
