@@ -26,6 +26,7 @@ public class DefaultUserService implements UserService {
   private final UserMapper mapper;
 
   @Transactional
+  @Override
   public Long createUser(@NonNull UserCreateDto dto) {
     User toSave = mapper.createToUser(dto);
     Role role = repRole.findById(dto.roleId())
@@ -36,6 +37,7 @@ public class DefaultUserService implements UserService {
   }
 
   @Transactional
+  @Override
   public Long createRole(@NonNull RoleCreateDto dto) {
     Role toSave = mapper.createToRole(dto);
     Role save = repRole.save(toSave);
@@ -43,6 +45,7 @@ public class DefaultUserService implements UserService {
   }
 
   @Transactional(readOnly = true)
+  @Override
   public UserReadDto findUser(long id) {
     User user = repUser.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -50,6 +53,7 @@ public class DefaultUserService implements UserService {
   }
 
   @Transactional
+  @Override
   public void updateUser(@NonNull UserUpdateDto dto) {
     User user = repUser.findById(dto.id())
         .orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -62,6 +66,7 @@ public class DefaultUserService implements UserService {
   }
 
   @Transactional
+  @Override
   public void deleteUser(long id) {
     repUser.deleteById(id);
   }
