@@ -65,8 +65,4 @@ public class Product {
     prices.add(ref);
     ref.setProduct(this);
   }
-
-  public void removePrice(Price ref) {
-    prices.remove(ref);
-  }
 }
