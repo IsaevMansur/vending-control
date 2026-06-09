@@ -37,6 +37,9 @@ public class Price {
   @DecimalMin("0.01")
   private BigDecimal value;
 
+  @Column(nullable = false)
+  private boolean isActive;
+
   @ManyToOne(
       fetch = FetchType.LAZY,
       optional = false

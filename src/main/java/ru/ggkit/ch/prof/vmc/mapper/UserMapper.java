@@ -15,7 +15,7 @@ import ru.ggkit.ch.prof.vmc.entity.Contacts;
 import ru.ggkit.ch.prof.vmc.entity.Role;
 import ru.ggkit.ch.prof.vmc.entity.User;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
   @Mapping(target = "id", ignore = true)
@@ -40,6 +40,6 @@ public interface UserMapper {
   Contacts updateToContacts(ContactsUpdateDto dto);
 
   @Mapping(target = "id", ignore = true)
-  @Mapping(target = "roleId", ignore = true)
+  @Mapping(target = "role", ignore = true)
   void updateFromDto(UserUpdateDto dto, @MappingTarget User user);
 }

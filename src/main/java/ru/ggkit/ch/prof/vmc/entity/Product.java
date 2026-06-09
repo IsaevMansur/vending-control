@@ -52,9 +52,6 @@ public class Product {
   )
   private Set<InStock> inStocks;
 
-  @OneToMany(mappedBy = "product")
-  private Set<Sale> sales;
-
   public void addInStock(InStock ref) {
     inStocks.add(ref);
     ref.setProduct(this);
