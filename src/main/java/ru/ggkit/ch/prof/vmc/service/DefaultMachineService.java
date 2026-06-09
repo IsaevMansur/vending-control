@@ -31,17 +31,17 @@ import ru.ggkit.ch.prof.vmc.repository.UserRepository;
 @RequiredArgsConstructor
 public class DefaultMachineService implements MachineService {
 
-  private final MachineRepository machineRepo;
+  private final MachineRepository repMachine;
 
-  private final PaymentTypeRepository paymentTypeRepo;
+  private final PaymentTypeRepository repPaymentType;
 
-  private final InstallationRepository installationRepo;
+  private final InstallationRepository repInstallation;
 
-  private final IncomeRepository incomeRepo;
+  private final IncomeRepository repIncome;
 
-  private final UserRepository userRepo;
+  private final UserRepository repUser;
 
-  private final MaintenanceRepository maintenanceRepo;
+  private final MaintenanceRepository repMaintenance;
 
   private final MachineMapper mapper;
 
@@ -49,10 +49,10 @@ public class DefaultMachineService implements MachineService {
   @Override
   public Long createMachine(@NonNull MachineCreateDto dto) {
     Machine toSave = mapper.createToMachine(dto);
-    Set<PaymentType> paymentTypes = new HashSet<>(paymentTypeRepo
+    Set<PaymentType> paymentTypes = new HashSet<>(repPaymentType
         .findAllById(dto.paymentTypes()));
     toSave.setPaymentTypes(paymentTypes);
-    Machine save = machineRepo.save(toSave);
+    Machine save = repMachine.save(toSave);
     return save.getId();
   }
 
@@ -60,13 +60,13 @@ public class DefaultMachineService implements MachineService {
   @Override
   public Long createMaintenance(@NonNull MaintenanceCreateDto dto) {
     Maintenance toSave = mapper.createToMaintenance(dto);
-    Machine machine = machineRepo.findById(dto.machineId())
+    Machine machine = repMachine.findById(dto.machineId())
         .orElseThrow(() -> new EntityNotFoundException("No suitable machine"));
-    User user = userRepo.findById(dto.userId())
+    User user = repUser.findById(dto.userId())
         .orElseThrow(() -> new EntityNotFoundException("No suitable user"));
     toSave.setMachine(machine);
     toSave.setUser(user);
-    Maintenance saved = maintenanceRepo.save(toSave);
+    Maintenance saved = repMaintenance.save(toSave);
     return saved.getId();
   }
 
@@ -74,7 +74,7 @@ public class DefaultMachineService implements MachineService {
   @Override
   public Long createPaymentType(@NonNull PaymentTypeCreateDto dto) {
     PaymentType toSave = mapper.createToPaymentType(dto);
-    PaymentType saved = paymentTypeRepo.save(toSave);
+    PaymentType saved = repPaymentType.save(toSave);
     return saved.getId();
   }
 
@@ -82,7 +82,7 @@ public class DefaultMachineService implements MachineService {
   @Override
   public void changeInstallation(InstallationCreateDto dto) {
     Installation installation = mapper.createToInstallation(dto);
-    Machine machine = machineRepo.findById(dto.machineId())
+    Machine machine = repMachine.findById(dto.machineId())
         .orElseThrow(() -> new EntityNotFoundException("No suitable machine found."));
     installation.setActive(true);
     machine.getInstallations().forEach(i -> i.setActive(false));
@@ -90,14 +90,14 @@ public class DefaultMachineService implements MachineService {
     Income income = new Income();
     income.setInstallation(installation);
     installation.setIncome(income);
-    incomeRepo.save(income);
-    installationRepo.save(installation);
+    repIncome.save(income);
+    repInstallation.save(installation);
   }
 
   @Transactional(readOnly = true)
   @Override
   public MachineReadDto findMachine(long id) {
-    Machine machine = machineRepo.findMachineWithPaymentTypes(id)
+    Machine machine = repMachine.findMachineWithPaymentTypes(id)
         .orElseThrow(
             () -> new EntityNotFoundException("Machine with ID=%d not found"
                 .formatted(id)));
@@ -107,12 +107,12 @@ public class DefaultMachineService implements MachineService {
   @Transactional
   @Override
   public void updateMachine(@NonNull MachineUpdateDto dto) {
-    Machine machine = machineRepo.findById(dto.id())
+    Machine machine = repMachine.findById(dto.id())
         .orElseThrow(
             () -> new EntityNotFoundException("Machine with ID=%d not found"
                 .formatted(dto.id())));
     Set<PaymentType> paymentTypes =
-        new HashSet<>(paymentTypeRepo.findAllById(dto.paymentTypeIds()));
+        new HashSet<>(repPaymentType.findAllById(dto.paymentTypeIds()));
     if (machine.getPaymentTypes().size() != paymentTypes.size()) {
       addPaymentTypes(machine, paymentTypes);
     }
@@ -122,7 +122,7 @@ public class DefaultMachineService implements MachineService {
   @Transactional
   @Override
   public void deleteMachine(long id) {
-    machineRepo.deleteById(id);
+    repMachine.deleteById(id);
   }
 
   private void addPaymentTypes(@NonNull Machine machine,
