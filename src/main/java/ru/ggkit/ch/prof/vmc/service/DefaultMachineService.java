@@ -80,7 +80,7 @@ public class DefaultMachineService implements MachineService {
 
   @Transactional
   @Override
-  public void changeInstallation(InstallationCreateDto dto) {
+  public void changeInstallation(@NonNull InstallationCreateDto dto) {
     Installation installation = mapper.createToInstallation(dto);
     Machine machine = repMachine.findById(dto.machineId())
         .orElseThrow(() -> new EntityNotFoundException("No suitable machine found."));

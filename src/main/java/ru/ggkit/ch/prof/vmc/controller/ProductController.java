@@ -40,7 +40,8 @@ public class ProductController {
   }
 
   @PatchMapping("in-stock/")
-  public ResponseEntity<Void> changeInStock(@RequestBody @Valid InStockUpdateDto inStockUpdateDto) {
+  public ResponseEntity<Void> changeInStock(
+      @RequestBody @Valid InStockUpdateDto inStockUpdateDto) {
     service.changeInStock(inStockUpdateDto);
     return ResponseEntity.ok().build();
   }
