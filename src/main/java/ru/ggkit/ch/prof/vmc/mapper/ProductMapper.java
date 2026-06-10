@@ -40,8 +40,8 @@ public interface ProductMapper {
   @Mapping(target = "price", source = "prices", qualifiedByName = "getActivePrice")
   ProductReadDto productToRead(Product product);
 
-  @Mapping(target = "machineId", source = "machine", expression = "java(machine.getId())")
-  @Mapping(target = "productId", source = "product", expression = "java(product.getId())")
+  @Mapping(target = "machineId",  expression = "java(inStock.getMachine().getId())")
+  @Mapping(target = "productId", expression = "java(inStock.getProduct().getId())")
   InStockReadDto inStockToRead(InStock inStock);
 
   PriceReadDto priceToRead(Price price);

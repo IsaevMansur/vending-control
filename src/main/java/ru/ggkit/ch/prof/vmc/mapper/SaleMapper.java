@@ -15,8 +15,8 @@ public interface SaleMapper {
   @Mapping(target = "paymentType", ignore = true)
   Sale createToSale(SaleCreateDto dto);
 
-  @Mapping(target = "machineId", source = "machine", expression = "java(machine.getId())")
-  @Mapping(target = "productId", source = "product", expression = "java(product.getId())")
-  @Mapping(target = "paymentTypeId", source = "paymentType", expression = "java(paymentType.getId())")
+  @Mapping(target = "machineId", expression = "java(sale.getMachine().getId())")
+  @Mapping(target = "productId", expression = "java(sale.getProduct().getId())")
+  @Mapping(target = "paymentTypeId", expression = "java(sale.getPaymentType().getId())")
   SaleReadDto saleToRead(Sale sale);
 }
