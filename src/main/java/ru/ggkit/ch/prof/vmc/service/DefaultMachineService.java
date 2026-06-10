@@ -1,129 +1,62 @@
 package ru.ggkit.ch.prof.vmc.service;
 
-import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ggkit.ch.prof.vmc.dto.create.InstallationCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.create.MachineCreateDto;
-import ru.ggkit.ch.prof.vmc.dto.create.MaintenanceCreateDto;
-import ru.ggkit.ch.prof.vmc.dto.create.PaymentTypeCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.read.MachineReadDto;
 import ru.ggkit.ch.prof.vmc.dto.update.MachineUpdateDto;
-import ru.ggkit.ch.prof.vmc.entity.Income;
-import ru.ggkit.ch.prof.vmc.entity.Installation;
 import ru.ggkit.ch.prof.vmc.entity.Machine;
-import ru.ggkit.ch.prof.vmc.entity.Maintenance;
 import ru.ggkit.ch.prof.vmc.entity.PaymentType;
-import ru.ggkit.ch.prof.vmc.entity.User;
-import ru.ggkit.ch.prof.vmc.exception.EntityNotFoundException;
-import ru.ggkit.ch.prof.vmc.exception.SubEntityNotFoundException;
 import ru.ggkit.ch.prof.vmc.mapper.MachineMapper;
-import ru.ggkit.ch.prof.vmc.repository.IncomeRepository;
-import ru.ggkit.ch.prof.vmc.repository.InstallationRepository;
 import ru.ggkit.ch.prof.vmc.repository.MachineRepository;
-import ru.ggkit.ch.prof.vmc.repository.MaintenanceRepository;
-import ru.ggkit.ch.prof.vmc.repository.PaymentTypeRepository;
-import ru.ggkit.ch.prof.vmc.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 public class DefaultMachineService implements MachineService {
 
-  private final MachineRepository repMachine;
+  private final MachineRepository repoMachine;
+  private final MachineMapper machineMapper;
 
-  private final PaymentTypeRepository repPaymentType;
-
-  private final InstallationRepository repInstallation;
-
-  private final IncomeRepository repIncome;
-
-  private final UserRepository repUser;
-
-  private final MaintenanceRepository repMaintenance;
-
-  private final MachineMapper mapper;
-
-  @Transactional
   @Override
-  public Long createMachine(@NonNull MachineCreateDto dto) {
-    Machine toSave = mapper.createToMachine(dto);
-    Set<PaymentType> paymentTypes = new HashSet<>(repPaymentType
-        .findAllById(dto.paymentTypes()));
-    toSave.setPaymentTypes(paymentTypes);
-    Machine save = repMachine.save(toSave);
-    return save.getId();
-  }
-
   @Transactional
-  @Override
-  public Long createMaintenance(@NonNull MaintenanceCreateDto dto) {
-    Maintenance toSave = mapper.createToMaintenance(dto);
-    Machine machine = repMachine.findById(dto.machineId())
-        .orElseThrow(() -> SubEntityNotFoundException.of(Machine.class));
-    User user = repUser.findById(dto.userId())
-        .orElseThrow(() -> SubEntityNotFoundException.of(User.class));
-    toSave.setMachine(machine);
-    toSave.setUser(user);
-    Maintenance saved = repMaintenance.save(toSave);
+  public Long createMachine(MachineCreateDto machineCreateDto) {
+    Machine machine = machineMapper.createDtoToMachine(machineCreateDto);
+    Set<PaymentType> paymentTypes = repoMachine.findAllPaymentTypesByIds(
+        machineCreateDto.paymentTypes());
+    machine.setPaymentTypes(paymentTypes);
+    Machine saved = repoMachine.save(machine);
     return saved.getId();
   }
 
-  @Transactional
   @Override
-  public Long createPaymentType(@NonNull PaymentTypeCreateDto dto) {
-    PaymentType toSave = mapper.createToPaymentType(dto);
-    PaymentType saved = repPaymentType.save(toSave);
-    return saved.getId();
-  }
-
-  @Transactional
-  @Override
-  public void changeInstallation(@NonNull InstallationCreateDto dto) {
-    Installation installation = mapper.createToInstallation(dto);
-    Machine machine = repMachine.findById(dto.machineId())
-        .orElseThrow(() ->  SubEntityNotFoundException.of(Machine.class));
-    installation.setActive(true);
-    machine.getInstallations().forEach(i -> i.setActive(false));
-    machine.addInstallation(installation);
-    Income income = new Income();
-    income.setInstallation(installation);
-    installation.setIncome(income);
-    repIncome.save(income);
-    repInstallation.save(installation);
-  }
-
   @Transactional(readOnly = true)
-  @Override
   public MachineReadDto findMachine(long id) {
-    Machine machine = repMachine.findMachineWithPaymentTypes(id)
-        .orElseThrow(() -> EntityNotFoundException.of(Machine.class, id));
-    return mapper.machineToRead(machine);
+    Machine machine = repoMachine.findMachineWithPaymentTypesOrThrow(id);
+    return machineMapper.machineToRead(machine);
   }
 
-  @Transactional
   @Override
-  public void updateMachine(@NonNull MachineUpdateDto dto) {
-    Machine machine = repMachine.findById(dto.id())
-        .orElseThrow(() -> EntityNotFoundException.of(Machine.class, dto.id()));
-    Set<PaymentType> paymentTypes =
-        new HashSet<>(repPaymentType.findAllById(dto.paymentTypeIds()));
+  @Transactional
+  public void updateMachine(MachineUpdateDto machineUpdateDto) {
+    Machine machine = repoMachine.findMachine(machineUpdateDto.id());
+    Set<PaymentType> paymentTypes = repoMachine.findAllPaymentTypesByIds(
+        machineUpdateDto.paymentTypeIds());
     if (machine.getPaymentTypes().size() != paymentTypes.size()) {
       addPaymentTypes(machine, paymentTypes);
     }
-    mapper.updateMachineFromDto(dto, machine);
+    machineMapper.updateMachineFromDto(machineUpdateDto, machine);
   }
 
-  @Transactional
   @Override
+  @Transactional
   public void deleteMachine(long id) {
-    repMachine.deleteById(id);
+    repoMachine.deleteById(id);
   }
 
-  private void addPaymentTypes(@NonNull Machine machine,
-      @NonNull Set<PaymentType> paymentTypes) {
+  private void addPaymentTypes(Machine machine,
+      Set<PaymentType> paymentTypes) {
     machine.getPaymentTypes().clear();
     machine.getPaymentTypes().addAll(paymentTypes);
   }

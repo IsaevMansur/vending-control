@@ -28,7 +28,7 @@ public interface MachineMapper {
 
   //create
   @Mapping(target = "paymentTypes", ignore = true)
-  Machine createToMachine(MachineCreateDto dto);
+  Machine createDtoToMachine(MachineCreateDto dto);
 
   @Mapping(target = "id", ignore = true)
   PaymentType createToPaymentType(PaymentTypeCreateDto dto);

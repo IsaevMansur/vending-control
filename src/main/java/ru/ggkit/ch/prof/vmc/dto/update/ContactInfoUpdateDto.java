@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import org.hibernate.validator.constraints.Length;
 
-public record ContactsUpdateDto(
+public record ContactInfoUpdateDto(
     @Positive
     long id,
     @NotBlank

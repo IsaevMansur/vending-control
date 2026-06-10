@@ -4,7 +4,6 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/vmc
-    driver-class-name: org.postgresql.Driver
     username: muku
     password: root
 

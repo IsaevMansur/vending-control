@@ -14,7 +14,7 @@ public record UserUpdateDto(
     @NotBlank
     String patronymic,
     @NotNull
-    ContactsUpdateDto contactData,
+    ContactInfoUpdateDto contactData,
     @Positive
     long roleId
 ) {

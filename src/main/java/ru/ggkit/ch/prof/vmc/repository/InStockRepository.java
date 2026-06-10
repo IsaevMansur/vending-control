@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.ggkit.ch.prof.vmc.entity.InStock;
+import ru.ggkit.ch.prof.vmc.entity.projection.InStockProjection;
 
 @Repository
 public interface InStockRepository extends JpaRepository<InStock, Long> {
@@ -14,4 +15,10 @@ public interface InStockRepository extends JpaRepository<InStock, Long> {
       + "join fetch is.product "
       + "where is.id=:id")
   Optional<InStock> findFullInStock(long id);
+
+  @Query("select m as machine, p as product "
+      + "from Machine m "
+      + "join Product p "
+      + "where m.id=:machineId and p.id=:productId")
+  Optional<InStockProjection> findInStockRequiredProps(long machineId, long productId);
 }

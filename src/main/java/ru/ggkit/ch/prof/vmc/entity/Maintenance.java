@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "maintenances", schema = "vmc")
-public class Maintenance implements ru.ggkit.ch.prof.vmc.entity.Entity {
+public class Maintenance {
 
   @Id
   @GeneratedValue(

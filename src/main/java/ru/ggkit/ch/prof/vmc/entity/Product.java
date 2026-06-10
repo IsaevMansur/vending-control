@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "products", schema = "vmc")
-public class Product implements ru.ggkit.ch.prof.vmc.entity.Entity {
+public class Product {
 
   @Id
   @GeneratedValue(
@@ -55,10 +55,6 @@ public class Product implements ru.ggkit.ch.prof.vmc.entity.Entity {
   public void addInStock(InStock ref) {
     inStocks.add(ref);
     ref.setProduct(this);
-  }
-
-  public void removeInStock(InStock ref) {
-    inStocks.remove(ref);
   }
 
   public void addPrice(Price ref) {

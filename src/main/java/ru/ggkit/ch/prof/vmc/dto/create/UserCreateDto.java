@@ -12,7 +12,7 @@ public record UserCreateDto(
     @NotBlank
     String patronymic,
     @NotNull
-    ContactsCreateDto contactData,
+    ContactInfoCreateDto contactData,
     @Positive
     long roleId
 ) {

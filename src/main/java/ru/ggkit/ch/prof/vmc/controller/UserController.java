@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.ggkit.ch.prof.vmc.dto.create.RoleCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.create.UserCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.read.UserReadDto;
 import ru.ggkit.ch.prof.vmc.dto.update.UserUpdateDto;
@@ -24,39 +23,31 @@ import ru.ggkit.ch.prof.vmc.service.UserService;
 @RequiredArgsConstructor
 public class UserController {
 
-  private final UserService service;
+  private final UserService userService;
 
   @PostMapping
   public ResponseEntity<Long> createUser(@RequestBody @Valid UserCreateDto userCreateDto,
       UriComponentsBuilder builder) {
-    Long savedId = service.createUser(userCreateDto);
-    URI uri = builder.path("{id}").buildAndExpand(savedId).toUri();
-    return ResponseEntity.created(uri).body(savedId);
-  }
-
-  @PostMapping("role")
-  public ResponseEntity<Long> createRole(@RequestBody @Valid RoleCreateDto roleCreateDto,
-      UriComponentsBuilder builder) {
-    Long savedId = service.createRole(roleCreateDto);
+    Long savedId = userService.createUser(userCreateDto);
     URI uri = builder.path("{id}").buildAndExpand(savedId).toUri();
     return ResponseEntity.created(uri).body(savedId);
   }
 
   @GetMapping("{id}")
   public ResponseEntity<UserReadDto> findUser(@PathVariable long id) {
-    UserReadDto user = service.findUser(id);
+    UserReadDto user = userService.findUser(id);
     return ResponseEntity.ok(user);
   }
 
   @PutMapping
   public ResponseEntity<Void> updateUser(@RequestBody @Valid UserUpdateDto userUpdateDto) {
-    service.updateUser(userUpdateDto);
+    userService.updateUser(userUpdateDto);
     return ResponseEntity.ok().build();
   }
 
   @DeleteMapping("{id}")
   public ResponseEntity<Void> deleteUser(@PathVariable long id) {
-    service.deleteUser(id);
+    userService.deleteUser(id);
     return ResponseEntity.ok().build();
   }
 }

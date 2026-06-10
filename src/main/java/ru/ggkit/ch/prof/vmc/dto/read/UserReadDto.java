@@ -5,7 +5,7 @@ public record UserReadDto(
     String surname,
     String name,
     String patronymic,
-    ContactsReadDto contacts,
+    ContactInfoReadDto contacts,
     RoleReadDto role
 ) {
 

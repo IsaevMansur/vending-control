@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "users", schema = "vmc")
-public class User implements ru.ggkit.ch.prof.vmc.entity.Entity {
+public class User {
 
   @Id
   @GeneratedValue(
@@ -48,7 +48,7 @@ public class User implements ru.ggkit.ch.prof.vmc.entity.Entity {
       fetch = FetchType.LAZY,
       cascade = CascadeType.ALL
   )
-  private Contacts contacts;
+  private ContactInfo contacts;
 
   @ManyToOne(
       fetch = FetchType.LAZY,

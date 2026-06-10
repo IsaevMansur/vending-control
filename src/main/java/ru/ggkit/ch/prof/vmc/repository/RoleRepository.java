@@ -7,4 +7,9 @@ import ru.ggkit.ch.prof.vmc.entity.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
+  default Role findRole(Long id) {
+    return findById(id)
+        .orElseThrow(() -> SubEntityNotFoundException.of(Role.class));
+  }
+
 }

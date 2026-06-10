@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "incomes", schema = "vmc")
-public class Income implements ru.ggkit.ch.prof.vmc.entity.Entity {
+public class Income {
 
   @Id
   @GeneratedValue(

@@ -20,20 +20,20 @@ import ru.ggkit.ch.prof.vmc.service.SaleService;
 @RequiredArgsConstructor
 public class SaleController {
 
-  private final SaleService service;
+  private final SaleService saleService;
 
   @PostMapping
   public ResponseEntity<Long> createSale(
       @RequestBody @Valid SaleCreateDto request,
       UriComponentsBuilder builder) {
-    Long sale = service.createSale(request);
+    Long sale = saleService.createSale(request);
     URI uri = builder.path("{id}").buildAndExpand(sale).toUri();
     return ResponseEntity.created(uri).body(sale);
   }
 
   @GetMapping("{id}")
   public ResponseEntity<SaleReadDto> findSale(@PathVariable long id) {
-    SaleReadDto sale = service.findSale(id);
+    SaleReadDto sale = saleService.findSale(id);
     return ResponseEntity.ok(sale);
   }
 }
