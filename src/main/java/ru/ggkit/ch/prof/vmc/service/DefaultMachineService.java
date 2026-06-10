@@ -1,6 +1,5 @@
 package ru.ggkit.ch.prof.vmc.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +18,8 @@ import ru.ggkit.ch.prof.vmc.entity.Machine;
 import ru.ggkit.ch.prof.vmc.entity.Maintenance;
 import ru.ggkit.ch.prof.vmc.entity.PaymentType;
 import ru.ggkit.ch.prof.vmc.entity.User;
+import ru.ggkit.ch.prof.vmc.exception.EntityNotFoundException;
+import ru.ggkit.ch.prof.vmc.exception.SubEntityNotFoundException;
 import ru.ggkit.ch.prof.vmc.mapper.MachineMapper;
 import ru.ggkit.ch.prof.vmc.repository.IncomeRepository;
 import ru.ggkit.ch.prof.vmc.repository.InstallationRepository;
@@ -61,9 +62,9 @@ public class DefaultMachineService implements MachineService {
   public Long createMaintenance(@NonNull MaintenanceCreateDto dto) {
     Maintenance toSave = mapper.createToMaintenance(dto);
     Machine machine = repMachine.findById(dto.machineId())
-        .orElseThrow(() -> new EntityNotFoundException("No suitable machine"));
+        .orElseThrow(() -> SubEntityNotFoundException.of(Machine.class));
     User user = repUser.findById(dto.userId())
-        .orElseThrow(() -> new EntityNotFoundException("No suitable user"));
+        .orElseThrow(() -> SubEntityNotFoundException.of(User.class));
     toSave.setMachine(machine);
     toSave.setUser(user);
     Maintenance saved = repMaintenance.save(toSave);
@@ -83,7 +84,7 @@ public class DefaultMachineService implements MachineService {
   public void changeInstallation(@NonNull InstallationCreateDto dto) {
     Installation installation = mapper.createToInstallation(dto);
     Machine machine = repMachine.findById(dto.machineId())
-        .orElseThrow(() -> new EntityNotFoundException("No suitable machine found."));
+        .orElseThrow(() ->  SubEntityNotFoundException.of(Machine.class));
     installation.setActive(true);
     machine.getInstallations().forEach(i -> i.setActive(false));
     machine.addInstallation(installation);
@@ -98,9 +99,7 @@ public class DefaultMachineService implements MachineService {
   @Override
   public MachineReadDto findMachine(long id) {
     Machine machine = repMachine.findMachineWithPaymentTypes(id)
-        .orElseThrow(
-            () -> new EntityNotFoundException("Machine with ID=%d not found"
-                .formatted(id)));
+        .orElseThrow(() -> EntityNotFoundException.of(Machine.class, id));
     return mapper.machineToRead(machine);
   }
 
@@ -108,9 +107,7 @@ public class DefaultMachineService implements MachineService {
   @Override
   public void updateMachine(@NonNull MachineUpdateDto dto) {
     Machine machine = repMachine.findById(dto.id())
-        .orElseThrow(
-            () -> new EntityNotFoundException("Machine with ID=%d not found"
-                .formatted(dto.id())));
+        .orElseThrow(() -> EntityNotFoundException.of(Machine.class, dto.id()));
     Set<PaymentType> paymentTypes =
         new HashSet<>(repPaymentType.findAllById(dto.paymentTypeIds()));
     if (machine.getPaymentTypes().size() != paymentTypes.size()) {

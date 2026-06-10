@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "users", schema = "vmc")
-public class User {
+public class User implements ru.ggkit.ch.prof.vmc.entity.Entity {
 
   @Id
   @GeneratedValue(

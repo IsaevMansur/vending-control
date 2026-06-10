@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "roles", schema = "vmc")
-public class Role {
+public class Role implements ru.ggkit.ch.prof.vmc.entity.Entity {
 
   @Id
   @GeneratedValue(

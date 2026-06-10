@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "payment_types", schema = "vmc")
-public class PaymentType {
+public class PaymentType implements ru.ggkit.ch.prof.vmc.entity.Entity {
 
   @Id
   @GeneratedValue(

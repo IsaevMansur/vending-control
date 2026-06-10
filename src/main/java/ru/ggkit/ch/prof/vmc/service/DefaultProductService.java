@@ -1,6 +1,5 @@
 package ru.ggkit.ch.prof.vmc.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
@@ -16,6 +15,8 @@ import ru.ggkit.ch.prof.vmc.entity.InStock;
 import ru.ggkit.ch.prof.vmc.entity.Machine;
 import ru.ggkit.ch.prof.vmc.entity.Price;
 import ru.ggkit.ch.prof.vmc.entity.Product;
+import ru.ggkit.ch.prof.vmc.exception.EntityNotFoundException;
+import ru.ggkit.ch.prof.vmc.exception.SubEntityNotFoundException;
 import ru.ggkit.ch.prof.vmc.mapper.ProductMapper;
 import ru.ggkit.ch.prof.vmc.repository.InStockRepository;
 import ru.ggkit.ch.prof.vmc.repository.MachineRepository;
@@ -50,9 +51,9 @@ public class DefaultProductService implements ProductService {
   @Override
   public Long createInStock(@NonNull InStockCreateDto request) {
     Product product = repProduct.findById(request.productId())
-        .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+        .orElseThrow(() -> EntityNotFoundException.of(Product.class, request.productId()));
     Machine machine = repMachine.findById(request.machineId())
-        .orElseThrow(() -> new EntityNotFoundException("Machine not found"));
+        .orElseThrow(() -> EntityNotFoundException.of(Machine.class, request.machineId()));
     InStock inStock = mapper.createToInStock(request);
     inStock.setProduct(product);
     inStock.setMachine(machine);
@@ -65,7 +66,7 @@ public class DefaultProductService implements ProductService {
   @Override
   public void changeInStock(@NonNull InStockUpdateDto request) {
     InStock inStock = repInStock.findById(request.id())
-        .orElseThrow(() -> new EntityNotFoundException("product in stock information not found"));
+        .orElseThrow(() -> EntityNotFoundException.of(InStock.class, request.id()));
     mapper.updateInStockFromDto(request, inStock);
   }
 
@@ -73,7 +74,7 @@ public class DefaultProductService implements ProductService {
   @Override
   public InStockReadDto findInStock(long id) {
     InStock inStock = repInStock.findFullInStock(id)
-        .orElseThrow(() -> new EntityNotFoundException("Stock information not found"));
+        .orElseThrow(() -> EntityNotFoundException.of(InStock.class, id));
     return mapper.inStockToRead(inStock);
   }
 
@@ -82,7 +83,7 @@ public class DefaultProductService implements ProductService {
   public void addPrice(@NonNull PriceUpdateDto request) {
     Price price = mapper.updateToPrice(request);
     Product product = repProduct.findById(request.productId())
-        .orElseThrow(() -> new EntityNotFoundException("No suitable product found"));
+        .orElseThrow(() -> SubEntityNotFoundException.of(Product.class));
     product.getPrices().forEach(e -> e.setActive(false));
     price.setActive(true);
     product.addPrice(price);
@@ -92,7 +93,7 @@ public class DefaultProductService implements ProductService {
   @Override
   public ProductReadDto findProduct(long id) {
     Product product = repProduct.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+        .orElseThrow(() -> EntityNotFoundException.of(Product.class, id));
     return mapper.productToRead(product);
   }
 
@@ -100,7 +101,7 @@ public class DefaultProductService implements ProductService {
   @Override
   public void updateProduct(@NonNull ProductUpdateDto request) {
     Product product = repProduct.findProductWithPrices(request.id())
-        .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+        .orElseThrow(() -> EntityNotFoundException.of(Product.class, request.id()));
     mapper.updateProductFromDto(request, product);
   }
 

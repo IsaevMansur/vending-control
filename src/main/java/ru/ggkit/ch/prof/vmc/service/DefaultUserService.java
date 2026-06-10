@@ -1,6 +1,5 @@
 package ru.ggkit.ch.prof.vmc.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,8 @@ import ru.ggkit.ch.prof.vmc.dto.read.UserReadDto;
 import ru.ggkit.ch.prof.vmc.dto.update.UserUpdateDto;
 import ru.ggkit.ch.prof.vmc.entity.Role;
 import ru.ggkit.ch.prof.vmc.entity.User;
+import ru.ggkit.ch.prof.vmc.exception.EntityNotFoundException;
+import ru.ggkit.ch.prof.vmc.exception.SubEntityNotFoundException;
 import ru.ggkit.ch.prof.vmc.mapper.UserMapper;
 import ru.ggkit.ch.prof.vmc.repository.RoleRepository;
 import ru.ggkit.ch.prof.vmc.repository.UserRepository;
@@ -30,7 +31,7 @@ public class DefaultUserService implements UserService {
   public Long createUser(@NonNull UserCreateDto dto) {
     User toSave = mapper.createToUser(dto);
     Role role = repRole.findById(dto.roleId())
-        .orElseThrow(() -> new EntityNotFoundException("No suitable Role found"));
+        .orElseThrow(() -> SubEntityNotFoundException.of(Role.class));
     toSave.setRole(role);
     User saved = repUser.save(toSave);
     return saved.getId();
@@ -48,7 +49,7 @@ public class DefaultUserService implements UserService {
   @Override
   public UserReadDto findUser(long id) {
     User user = repUser.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        .orElseThrow(() -> EntityNotFoundException.of(User.class, id));
     return mapper.userToRead(user);
   }
 
@@ -56,11 +57,11 @@ public class DefaultUserService implements UserService {
   @Override
   public void updateUser(@NonNull UserUpdateDto dto) {
     User user = repUser.findById(dto.id())
-        .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        .orElseThrow(() -> EntityNotFoundException.of(User.class, dto.id()));
     mapper.updateFromDto(dto, user);
     if (!user.getRole().getId().equals(dto.roleId())) {
       Role role = repRole.findById(dto.roleId())
-          .orElseThrow(() -> new EntityNotFoundException("No suitable Role found"));
+          .orElseThrow(() -> SubEntityNotFoundException.of(Role.class));
       user.setRole(role);
     }
   }
