@@ -35,7 +35,7 @@ public class DefaultProductService implements ProductService {
   @Override
   @Transactional
   public void updateProduct(ProductUpdateDto productUpdateDto) {
-    Product product = repoProduct.findProductWithPricesOrThrow(productUpdateDto.id());
+    Product product = repoProduct.findFullProductThrow(productUpdateDto.id());
     productMapper.updateProductFromDto(productUpdateDto, product);
   }
 
