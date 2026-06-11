@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jspecify.annotations.Nullable;
 
 @Entity
 @Getter
@@ -31,6 +32,7 @@ public class Price {
       name = "price_id_seq",
       sequenceName = "price_id_seq"
   )
+  @Nullable
   private Long id;
 
   @Column(nullable = false)
@@ -44,5 +46,6 @@ public class Price {
       fetch = FetchType.LAZY,
       optional = false
   )
+  @Nullable
   private Product product;
 }

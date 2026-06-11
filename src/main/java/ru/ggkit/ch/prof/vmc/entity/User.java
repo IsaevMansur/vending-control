@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jspecify.annotations.Nullable;
 
 @Entity
 @Getter
@@ -31,6 +32,7 @@ public class User {
       name = "user_id_seq",
       sequenceName = "user_id_seq"
   )
+  @Nullable
   private Long id;
 
   @Column(nullable = false)
@@ -48,11 +50,13 @@ public class User {
       fetch = FetchType.LAZY,
       cascade = CascadeType.ALL
   )
+  @Nullable
   private ContactInfo contacts;
 
   @ManyToOne(
       fetch = FetchType.LAZY,
       optional = false
   )
+  @Nullable
   private Role role;
 }

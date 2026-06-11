@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jspecify.annotations.Nullable;
 
 @Entity
 @Getter
@@ -29,18 +30,21 @@ public class InStock {
       name = "in_stock_id_seq",
       sequenceName = "in_stock_id_seq"
   )
+  @Nullable
   private Long id;
 
   @ManyToOne(
       fetch = FetchType.LAZY,
       optional = false
   )
+  @Nullable
   private Machine machine;
 
   @ManyToOne(
       fetch = FetchType.LAZY,
       optional = false
   )
+  @Nullable
   private Product product;
 
   @Column(nullable = false)

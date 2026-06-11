@@ -13,6 +13,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jspecify.annotations.Nullable;
 
 @Entity
 @Getter
@@ -30,6 +31,7 @@ public class PaymentType {
       name = "payment_type_id_seq",
       sequenceName = "payment_type_id_seq"
   )
+  @Nullable
   private Long id;
 
   @Column(

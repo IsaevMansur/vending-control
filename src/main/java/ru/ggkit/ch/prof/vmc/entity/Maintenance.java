@@ -15,6 +15,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jspecify.annotations.Nullable;
 
 @Entity
 @Getter
@@ -32,6 +33,7 @@ public class Maintenance {
       name = "maintenance_id_seq",
       sequenceName = "maintenance_id_seq"
   )
+  @Nullable
   private Long id;
 
   @Column(nullable = false)
@@ -51,11 +53,13 @@ public class Maintenance {
       fetch = FetchType.LAZY,
       optional = false
   )
+  @Nullable
   private Machine machine;
 
   @ManyToOne(
       optional = false,
       fetch = FetchType.LAZY
   )
+  @Nullable
   private User user;
 }

@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jspecify.annotations.Nullable;
 
 @Entity
 @Getter
@@ -30,6 +31,7 @@ public class Income {
       name = "income_id_seq",
       sequenceName = "income_id_seq"
   )
+  @Nullable
   private Long id;
 
   @Column(nullable = false)
@@ -39,5 +41,6 @@ public class Income {
       fetch = FetchType.LAZY,
       optional = false
   )
+  @Nullable
   private Installation installation;
 }

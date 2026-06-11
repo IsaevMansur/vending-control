@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jspecify.annotations.Nullable;
 
 @Entity
 @Getter
@@ -31,12 +32,14 @@ public class Installation {
       name = "installation_id_seq",
       sequenceName = "installation_id_seq"
   )
+  @Nullable
   private Long id;
 
   @ManyToOne(
       optional = false,
       fetch = FetchType.LAZY
   )
+  @Nullable
   private Machine machine;
 
   @Column(nullable = false)
@@ -52,5 +55,6 @@ public class Installation {
       optional = false,
       mappedBy = "installation"
   )
+  @Nullable
   private Income income;
 }

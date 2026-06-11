@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jspecify.annotations.Nullable;
 
 @Entity
 @Getter
@@ -31,18 +32,21 @@ public class Sale {
       name = "sale_id_seq",
       sequenceName = "sale_id_seq"
   )
+  @Nullable
   private Long id;
 
   @ManyToOne(
       fetch = FetchType.LAZY,
       optional = false
   )
+  @Nullable
   private Machine machine;
 
   @ManyToOne(
       fetch = FetchType.LAZY,
       optional = false
   )
+  @Nullable
   private Product product;
 
   @Column(nullable = false)
@@ -56,5 +60,6 @@ public class Sale {
       fetch = FetchType.LAZY,
       optional = false
   )
+  @Nullable
   private PaymentType paymentType;
 }

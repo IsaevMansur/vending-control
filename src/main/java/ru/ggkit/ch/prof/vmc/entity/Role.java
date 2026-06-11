@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jspecify.annotations.Nullable;
 
 @Entity
 @Getter
@@ -27,6 +28,7 @@ public class Role {
       name = "role_id_seq",
       sequenceName = "role_id_seq"
   )
+  @Nullable
   private Long id;
 
   @Column(
