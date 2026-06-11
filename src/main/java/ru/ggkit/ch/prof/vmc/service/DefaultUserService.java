@@ -43,7 +43,9 @@ public class DefaultUserService implements UserService {
   public void updateUser(UserUpdateDto userUpdateDto) {
     User user = repoUser.findUserWithRoleOrThrow(userUpdateDto.id());
     userMapper.updateFromDto(userUpdateDto, user);
-    if (!Objects.equals(user.getRole().getId(), userUpdateDto.roleId())) {
+    Role actualRole = user.getRole();
+    if (Objects.nonNull(actualRole) && !Objects.equals(actualRole.getId(),
+        userUpdateDto.roleId())) {
       Role role = repoRole.findRole(userUpdateDto.roleId());
       user.setRole(role);
     }
