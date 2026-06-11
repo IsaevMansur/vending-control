@@ -28,7 +28,7 @@ public interface UserMapper {
   @Mapping(target = "id", ignore = true)
   Role createToRole(RoleCreateDto dto);
 
-  UserReadDto userToRead(User user);
+  UserReadDto userToReadDto(User user);
 
   RoleReadDto roleToRead(Role role);
 

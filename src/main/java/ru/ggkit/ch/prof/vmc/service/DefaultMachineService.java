@@ -21,20 +21,20 @@ public class DefaultMachineService implements MachineService {
 
   @Override
   @Transactional
-  public Long createMachine(MachineCreateDto machineCreateDto) {
+  public MachineReadDto createMachine(MachineCreateDto machineCreateDto) {
     Machine machine = machineMapper.createDtoToMachine(machineCreateDto);
     Set<PaymentType> paymentTypes = repoMachine.findAllPaymentTypesByIds(
         machineCreateDto.paymentTypes());
     machine.setPaymentTypes(paymentTypes);
     Machine saved = repoMachine.save(machine);
-    return saved.getId();
+    return machineMapper.machineToReadDto(saved);
   }
 
   @Override
   @Transactional(readOnly = true)
   public MachineReadDto findMachine(long id) {
     Machine machine = repoMachine.findMachineWithPaymentTypesOrThrow(id);
-    return machineMapper.machineToRead(machine);
+    return machineMapper.machineToReadDto(machine);
   }
 
   @Override

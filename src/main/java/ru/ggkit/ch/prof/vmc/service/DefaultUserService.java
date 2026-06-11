@@ -23,19 +23,19 @@ public class DefaultUserService implements UserService {
 
   @Override
   @Transactional
-  public Long createUser(UserCreateDto dto) {
+  public UserReadDto createUser(UserCreateDto dto) {
     User toSave = userMapper.createToUser(dto);
     Role role = repoRole.findRole(dto.roleId());
     toSave.setRole(role);
     User saved = repoUser.save(toSave);
-    return saved.getId();
+    return userMapper.userToReadDto(saved);
   }
 
   @Override
   @Transactional(readOnly = true)
   public UserReadDto findUser(long id) {
     User user = repoUser.findUserOrThrow(id);
-    return userMapper.userToRead(user);
+    return userMapper.userToReadDto(user);
   }
 
   @Override

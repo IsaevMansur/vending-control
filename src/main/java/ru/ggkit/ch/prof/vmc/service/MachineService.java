@@ -6,7 +6,7 @@ import ru.ggkit.ch.prof.vmc.dto.update.MachineUpdateDto;
 
 public interface MachineService {
 
-  Long createMachine(MachineCreateDto dto);
+  MachineReadDto createMachine(MachineCreateDto dto);
 
   MachineReadDto findMachine(long id);
 

@@ -26,11 +26,11 @@ public class UserController {
   private final UserService userService;
 
   @PostMapping
-  public ResponseEntity<Long> createUser(@RequestBody @Valid UserCreateDto userCreateDto,
+  public ResponseEntity<UserReadDto> createUser(@RequestBody @Valid UserCreateDto userCreateDto,
       UriComponentsBuilder builder) {
-    Long savedId = userService.createUser(userCreateDto);
-    URI uri = builder.path("{id}").buildAndExpand(savedId).toUri();
-    return ResponseEntity.created(uri).body(savedId);
+    var saved = userService.createUser(userCreateDto);
+    URI uri = builder.path("{id}").buildAndExpand(saved.id()).toUri();
+    return ResponseEntity.created(uri).body(saved);
   }
 
   @GetMapping("{id}")

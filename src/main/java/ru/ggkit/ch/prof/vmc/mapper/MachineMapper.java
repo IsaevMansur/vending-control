@@ -26,30 +26,27 @@ import ru.ggkit.ch.prof.vmc.entity.PaymentType;
 @Mapper(componentModel = "spring")
 public interface MachineMapper {
 
-  //create
   @Mapping(target = "paymentTypes", ignore = true)
   Machine createDtoToMachine(MachineCreateDto dto);
 
   @Mapping(target = "id", ignore = true)
-  PaymentType createToPaymentType(PaymentTypeCreateDto dto);
+  PaymentType createDtoToPaymentType(PaymentTypeCreateDto dto);
 
   @Mapping(target = "machine", ignore = true)
   @Mapping(target = "user", ignore = true)
-  Maintenance createToMaintenance(MaintenanceCreateDto dto);
+  Maintenance createDtoToMaintenance(MaintenanceCreateDto dto);
 
-  //read
   @Mapping(target = "installation", source = "installations", qualifiedByName = "getInstallation")
   @Mapping(target = "income", source = "installations", qualifiedByName = "getIncome")
   @Mapping(target = "paymentTypes", qualifiedByName = "paymentTypesMap")
-  MachineReadDto machineToRead(Machine machine);
+  MachineReadDto machineToReadDto(Machine machine);
 
-  IncomeReadDto incomeToRead(Income income);
+  IncomeReadDto incomeToReadDto(Income income);
 
-  InstallationReadDto installationToRead(Installation installation);
+  InstallationReadDto installationToReadDto(Installation installation);
 
-  //update
   @Mapping(target = "installations", ignore = true)
-  Machine updateToMachine(MachineUpdateDto dto);
+  Machine updateDtoToMachine(MachineUpdateDto dto);
 
   @Mapping(target = "id", ignore = true)
   void updateMachineFromDto(MachineUpdateDto dto, @MappingTarget Machine machine);
@@ -67,14 +64,14 @@ public interface MachineMapper {
   default IncomeReadDto getIncome(Set<Installation> installations) {
     return activeInstallation(installations)
         .map(Installation::getIncome)
-        .map(this::incomeToRead)
+        .map(this::incomeToReadDto)
         .orElse(null);
   }
 
   @Named("getInstallation")
   default InstallationReadDto getInstallation(Set<Installation> installations) {
     return activeInstallation(installations)
-        .map(this::installationToRead)
+        .map(this::installationToReadDto)
         .orElse(null);
   }
 
@@ -90,5 +87,5 @@ public interface MachineMapper {
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "machine", ignore = true)
   @Mapping(target = "income", ignore = true)
-  Installation createToInstallation(InstallationCreateDto dto);
+  Installation createDtoToInstallation(InstallationCreateDto dto);
 }

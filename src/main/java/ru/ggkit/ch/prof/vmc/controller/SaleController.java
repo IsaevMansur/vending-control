@@ -23,12 +23,12 @@ public class SaleController {
   private final SaleService saleService;
 
   @PostMapping
-  public ResponseEntity<Long> createSale(
+  public ResponseEntity<SaleReadDto> createSale(
       @RequestBody @Valid SaleCreateDto request,
       UriComponentsBuilder builder) {
-    Long sale = saleService.createSale(request);
-    URI uri = builder.path("{id}").buildAndExpand(sale).toUri();
-    return ResponseEntity.created(uri).body(sale);
+    var saved = saleService.createSale(request);
+    URI uri = builder.path("{id}").buildAndExpand(saved.id()).toUri();
+    return ResponseEntity.created(uri).body(saved);
   }
 
   @GetMapping("{id}")
