@@ -22,18 +22,18 @@ public class DefaultSaleService implements SaleService {
   public SaleReadDto createSale(SaleCreateDto saleCreateDto) {
     SaleProjection projection = repoSale.findSaleRequiredPropsOrThrow(saleCreateDto.machineId(),
         saleCreateDto.productId(), saleCreateDto.paymentTypeId());
-    Sale sale = saleMapper.createToSale(saleCreateDto);
+    Sale sale = saleMapper.createDtoToSale(saleCreateDto);
     sale.setMachine(projection.getMachine());
     sale.setProduct(projection.getProduct());
     sale.setPaymentType(projection.getPaymentType());
     Sale saved = repoSale.save(sale);
-    return saleMapper.saleToRead(saved);
+    return saleMapper.saleToReadDto(saved);
   }
 
   @Override
   @Transactional(readOnly = true)
   public SaleReadDto findSale(long id) {
     Sale sale = repoSale.findFullSaleOrThrow(id);
-    return saleMapper.saleToRead(sale);
+    return saleMapper.saleToReadDto(sale);
   }
 }

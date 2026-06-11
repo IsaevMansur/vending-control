@@ -10,13 +10,15 @@ import ru.ggkit.ch.prof.vmc.entity.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-  @Query("from Product p "
-      + "join fetch p.prices "
-      + "where p.id=:id")
-  Optional<Product> findProductWithPrices(long id);
+  @Query(
+      "from Product p "
+          + "join fetch p.inStock "
+          + "where p.id=:id"
+  )
+  Optional<Product> findFullProduct(long id);
 
-  default Product findProductWithPricesOrThrow(long id) {
-    return findProductWithPrices(id).orElseThrow(
+  default Product findFullProductThrow(long id) {
+    return findFullProduct(id).orElseThrow(
         () -> new EntityNotFoundException("Product with ID=%s not found".formatted(id)));
   }
 

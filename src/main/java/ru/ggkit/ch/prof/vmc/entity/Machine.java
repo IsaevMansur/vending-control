@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.Set;
@@ -51,19 +51,18 @@ public class Machine {
   )
   private Set<PaymentType> paymentTypes;
 
-  @OneToMany(
+  @OneToOne(
       cascade = CascadeType.ALL,
       mappedBy = "machine",
       orphanRemoval = true
   )
-  private Set<Installation> installations;
+  private Installation installation;
 
-  public void addInstallation(Installation ref) {
-    installations.add(ref);
-    ref.setMachine(this);
-  }
-
-  public void removeInstallation(Installation ref) {
-    installations.remove(ref);
-  }
+  @OneToOne(
+      optional = false,
+      mappedBy = "machine",
+      cascade = CascadeType.PERSIST
+  )
+  @Nullable
+  private Income income;
 }

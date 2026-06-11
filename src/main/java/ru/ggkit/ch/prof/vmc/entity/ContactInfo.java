@@ -16,7 +16,7 @@ import org.jspecify.annotations.Nullable;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "contacts", schema = "vmc")
+@Table(name = "contact_infos", schema = "vmc")
 public class ContactInfo {
 
   @Id

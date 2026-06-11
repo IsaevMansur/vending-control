@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -40,7 +41,7 @@ public class InStock {
   @Nullable
   private Machine machine;
 
-  @ManyToOne(
+  @OneToOne(
       fetch = FetchType.LAZY,
       optional = false
   )

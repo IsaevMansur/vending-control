@@ -1,7 +1,6 @@
 package ru.ggkit.ch.prof.vmc.controller;
 
 import jakarta.validation.Valid;
-import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 import ru.ggkit.ch.prof.vmc.dto.create.MachineCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.read.MachineReadDto;
 import ru.ggkit.ch.prof.vmc.dto.update.MachineUpdateDto;
@@ -27,11 +25,9 @@ public class MachineController {
 
   @PostMapping
   public ResponseEntity<MachineReadDto> createMachine(
-      @RequestBody @Valid MachineCreateDto machineCreateDto,
-      UriComponentsBuilder builder) {
+      @RequestBody @Valid MachineCreateDto machineCreateDto) {
     MachineReadDto saved = machineService.createMachine(machineCreateDto);
-    URI uri = builder.path("{id}").buildAndExpand(saved.id()).toUri();
-    return ResponseEntity.created(uri).body(saved);
+    return ResponseEntity.ok(saved);
   }
 
   @GetMapping("{id}")

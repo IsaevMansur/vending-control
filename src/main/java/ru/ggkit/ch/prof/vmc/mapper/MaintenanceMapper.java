@@ -3,7 +3,7 @@ package ru.ggkit.ch.prof.vmc.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.ggkit.ch.prof.vmc.dto.create.MaintenanceCreateDto;
-import ru.ggkit.ch.prof.vmc.dto.create.MaintenanceReadDto;
+import ru.ggkit.ch.prof.vmc.dto.read.MaintenanceReadDto;
 import ru.ggkit.ch.prof.vmc.entity.Maintenance;
 
 @Mapper(

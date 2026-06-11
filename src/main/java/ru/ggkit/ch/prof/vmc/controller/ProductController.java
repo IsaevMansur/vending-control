@@ -1,7 +1,6 @@
 package ru.ggkit.ch.prof.vmc.controller;
 
 import jakarta.validation.Valid;
-import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 import ru.ggkit.ch.prof.vmc.dto.create.ProductCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.read.ProductReadDto;
 import ru.ggkit.ch.prof.vmc.dto.update.ProductUpdateDto;
@@ -27,11 +25,9 @@ public class ProductController {
 
   @PostMapping("product")
   public ResponseEntity<ProductReadDto> createProduct(
-      @RequestBody @Valid ProductCreateDto request,
-      UriComponentsBuilder builder) {
+      @RequestBody @Valid ProductCreateDto request) {
     ProductReadDto saved = productService.createProduct(request);
-    URI uri = builder.path("{id}").buildAndExpand(saved.id()).toUri();
-    return ResponseEntity.created(uri).body(saved);
+    return ResponseEntity.ok(saved);
   }
 
   @GetMapping("product/{id}")

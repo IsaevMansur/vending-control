@@ -42,5 +42,5 @@ public class Income {
       optional = false
   )
   @Nullable
-  private Installation installation;
+  private Machine machine;
 }

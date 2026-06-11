@@ -1,7 +1,6 @@
 package ru.ggkit.ch.prof.vmc.controller;
 
 import jakarta.validation.Valid;
-import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 import ru.ggkit.ch.prof.vmc.dto.create.SaleCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.read.SaleReadDto;
 import ru.ggkit.ch.prof.vmc.service.SaleService;
@@ -24,11 +22,9 @@ public class SaleController {
 
   @PostMapping
   public ResponseEntity<SaleReadDto> createSale(
-      @RequestBody @Valid SaleCreateDto request,
-      UriComponentsBuilder builder) {
+      @RequestBody @Valid SaleCreateDto request) {
     var saved = saleService.createSale(request);
-    URI uri = builder.path("{id}").buildAndExpand(saved.id()).toUri();
-    return ResponseEntity.created(uri).body(saved);
+    return ResponseEntity.ok(saved);
   }
 
   @GetMapping("{id}")

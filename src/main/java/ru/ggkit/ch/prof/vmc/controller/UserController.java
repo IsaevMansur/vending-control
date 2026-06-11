@@ -1,7 +1,6 @@
 package ru.ggkit.ch.prof.vmc.controller;
 
 import jakarta.validation.Valid;
-import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 import ru.ggkit.ch.prof.vmc.dto.create.UserCreateDto;
 import ru.ggkit.ch.prof.vmc.dto.read.UserReadDto;
 import ru.ggkit.ch.prof.vmc.dto.update.UserUpdateDto;
@@ -26,11 +24,10 @@ public class UserController {
   private final UserService userService;
 
   @PostMapping
-  public ResponseEntity<UserReadDto> createUser(@RequestBody @Valid UserCreateDto userCreateDto,
-      UriComponentsBuilder builder) {
+  public ResponseEntity<UserReadDto> createUser(
+      @RequestBody @Valid UserCreateDto userCreateDto) {
     var saved = userService.createUser(userCreateDto);
-    URI uri = builder.path("{id}").buildAndExpand(saved.id()).toUri();
-    return ResponseEntity.created(uri).body(saved);
+    return ResponseEntity.ok(saved);
   }
 
   @GetMapping("{id}")

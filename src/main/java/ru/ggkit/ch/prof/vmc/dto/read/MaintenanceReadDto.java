@@ -1,9 +1,7 @@
-package ru.ggkit.ch.prof.vmc.dto.create;
+package ru.ggkit.ch.prof.vmc.dto.read;
 
 import java.time.LocalDate;
 import java.util.Set;
-import ru.ggkit.ch.prof.vmc.dto.read.MachineReadDto;
-import ru.ggkit.ch.prof.vmc.dto.read.UserReadDto;
 
 public record MaintenanceReadDto(
     long id,

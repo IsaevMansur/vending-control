@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 public record SaleReadDto(
     long id,
-    long machineId,
-    long productId,
+    MachineReadDto machine,
+    ProductReadDto product,
     int soldCount,
     LocalDateTime soldAt,
-    long paymentTypeId
+    PaymentTypeReadDto paymentType
 ) {
 
 }

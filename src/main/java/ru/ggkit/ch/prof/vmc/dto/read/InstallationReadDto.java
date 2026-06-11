@@ -5,8 +5,7 @@ import java.time.LocalDate;
 public record InstallationReadDto(
     long id,
     String location,
-    LocalDate installedAt,
-    LocalDate uninstalledAt
+    LocalDate installedAt
 ) {
 
 }

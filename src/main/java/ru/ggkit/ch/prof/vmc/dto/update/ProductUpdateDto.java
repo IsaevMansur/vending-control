@@ -1,10 +1,10 @@
 package ru.ggkit.ch.prof.vmc.dto.update;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
-import java.util.Set;
+import java.math.BigDecimal;
 
 public record ProductUpdateDto(
     @Positive
@@ -14,8 +14,11 @@ public record ProductUpdateDto(
     @NotBlank
     String description,
     @NotNull
-    @Size(min = 1)
-    Set<PriceUpdateDto> price
+    @Positive
+    BigDecimal price,
+    @NotNull
+    @Valid
+    InStockUpdateDto inStock
 ) {
 
 }

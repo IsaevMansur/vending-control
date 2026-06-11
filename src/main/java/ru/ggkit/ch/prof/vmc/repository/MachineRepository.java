@@ -12,9 +12,11 @@ import ru.ggkit.ch.prof.vmc.entity.PaymentType;
 @Repository
 public interface MachineRepository extends JpaRepository<Machine, Long> {
 
-  @Query("from Machine m "
-      + "join fetch m.paymentTypes pt "
-      + "where m.id=:id")
+  @Query(
+      "from Machine m "
+          + "join fetch m.paymentTypes pt "
+          + "where m.id=:id"
+  )
   Optional<Machine> findMachineWithPaymentTypes(long id);
 
   default Machine findMachine(long id) {
@@ -28,7 +30,10 @@ public interface MachineRepository extends JpaRepository<Machine, Long> {
         () -> new EntityNotFoundException("Machine with ID=%d not found".formatted(id)));
   }
 
-  @Query("from PaymentType pt where pt.id in :ids")
+  @Query(
+      "from PaymentType pt "
+          + "where pt.id in :ids"
+  )
   Set<PaymentType> findAllPaymentTypesByIds(Set<Long> ids);
 
   long id(Long id);

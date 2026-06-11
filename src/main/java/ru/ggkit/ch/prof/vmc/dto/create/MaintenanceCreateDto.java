@@ -13,13 +13,12 @@ public record MaintenanceCreateDto(
     LocalDate lastMaintenanceDate,
     @NotBlank
     String description,
+    @NotNull
     Set<String> problems,
     @Positive
-    @NotNull
-    Long machineId,
+    long machineId,
     @Positive
-    @NotNull
-    Long userId
+    long userId
 ) {
 
 }

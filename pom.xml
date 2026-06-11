@@ -14,23 +14,12 @@
   <groupId>ru.ggkit.ch.prof</groupId>
   <artifactId>vmc</artifactId>
   <version>0.0.1</version>
-  <name>vmc</name>
-  <description>vmc</description>
 
   <properties>
     <java.version>17</java.version>
-    <error-prone.version>2.26.1</error-prone.version>
-    <nullaway.version>0.10.25</nullaway.version>
   </properties>
 
   <dependencies>
-    <!-- Заменили jsr305 на JetBrains annotations -->
-    <dependency>
-      <groupId>org.jetbrains</groupId>
-      <artifactId>annotations</artifactId>
-      <version>24.1.0</version>
-    </dependency>
-
     <dependency>
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
@@ -41,47 +30,39 @@
       <artifactId>mapstruct-processor</artifactId>
       <version>1.6.3</version>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
       <scope>runtime</scope>
       <optional>true</optional>
     </dependency>
-
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <scope>runtime</scope>
     </dependency>
-
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <optional>true</optional>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -103,30 +84,12 @@
           </excludes>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <executions>
-
           <execution>
-            <id>default-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
             <configuration>
-              <compilerArgs>
-                <arg>-XDcompilePolicy=simple</arg>
-                <arg>-Xplugin:ErrorProne
-                  -XepOpt:NullAway:AnnotatedPackages=ru.ggkit.ch.prof
-                  -XepOpt:NullAway:TreatGeneratedAsUnannotated=true
-                  -XepOpt:NullAway:CustomNullableAnnotations=org.jetbrains.annotations.Nullable
-                  -XepOpt:NullAway:CustomNonnullAnnotations=org.jetbrains.annotations.NotNull
-                  -XepOpt:NullAway:ExcludedFieldAnnotations=org.springframework.beans.factory.annotation.Autowired,org.springframework.beans.factory.annotation.Value
-                  -XepOpt:NullAway:ExcludedClassAnnotations=lombok.Generated
-                </arg>
-              </compilerArgs>
               <annotationProcessorPaths>
                 <path>
                   <groupId>org.projectlombok</groupId>
@@ -137,32 +100,11 @@
                   <artifactId>mapstruct-processor</artifactId>
                   <version>1.6.3</version>
                 </path>
-                <path>
-                  <groupId>com.google.errorprone</groupId>
-                  <artifactId>error_prone_core</artifactId>
-                  <version>${error-prone.version}</version>
-                </path>
-                <path>
-                  <groupId>com.uber.nullaway</groupId>
-                  <artifactId>nullaway</artifactId>
-                  <version>${nullaway.version}</version>
-                </path>
               </annotationProcessorPaths>
             </configuration>
           </execution>
-
           <execution>
-            <id>default-testCompile</id>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
             <configuration>
-              <compilerArgs>
-                <arg>-XDcompilePolicy=simple</arg>
-                <!-- В тестах NullAway отключён намеренно: тесты часто передают null явно -->
-                <arg>-Xplugin:ErrorProne -Xep:NullAway:OFF</arg>
-              </compilerArgs>
               <annotationProcessorPaths>
                 <path>
                   <groupId>org.projectlombok</groupId>
@@ -173,23 +115,11 @@
                   <artifactId>mapstruct-processor</artifactId>
                   <version>1.6.3</version>
                 </path>
-                <path>
-                  <groupId>com.google.errorprone</groupId>
-                  <artifactId>error_prone_core</artifactId>
-                  <version>${error-prone.version}</version>
-                </path>
-                <path>
-                  <groupId>com.uber.nullaway</groupId>
-                  <artifactId>nullaway</artifactId>
-                  <version>${nullaway.version}</version>
-                </path>
               </annotationProcessorPaths>
             </configuration>
           </execution>
-
         </executions>
       </plugin>
     </plugins>
   </build>
-
 </project>

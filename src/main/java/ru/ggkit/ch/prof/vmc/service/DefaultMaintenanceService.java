@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ggkit.ch.prof.vmc.dto.create.MaintenanceCreateDto;
-import ru.ggkit.ch.prof.vmc.dto.create.MaintenanceReadDto;
+import ru.ggkit.ch.prof.vmc.dto.read.MaintenanceReadDto;
 import ru.ggkit.ch.prof.vmc.entity.Maintenance;
 import ru.ggkit.ch.prof.vmc.mapper.MaintenanceMapper;
 import ru.ggkit.ch.prof.vmc.repository.MaintenanceRepository;

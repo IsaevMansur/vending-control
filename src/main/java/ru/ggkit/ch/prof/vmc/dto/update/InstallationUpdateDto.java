@@ -1,24 +1,17 @@
 package ru.ggkit.ch.prof.vmc.dto.update;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import java.time.LocalDate;
 
-public record UserUpdateDto(
+public record InstallationUpdateDto(
     @Positive
     long id,
     @NotBlank
-    String surname,
-    @NotBlank
-    String name,
-    @NotBlank
-    String patronymic,
+    String location,
     @NotNull
-    @Valid
-    ContactInfoUpdateDto contactData,
-    @Positive
-    long roleId
+    LocalDate installedAt
 ) {
 
 }

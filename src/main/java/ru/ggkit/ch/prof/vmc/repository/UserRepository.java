@@ -10,9 +10,11 @@ import ru.ggkit.ch.prof.vmc.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-  @Query("from User u "
-      + "join fetch u.role "
-      + "where u.id=:id")
+  @Query(
+      "from User u "
+          + "join fetch u.role "
+          + "where u.id=:id"
+  )
   Optional<User> findUserWithRole(long id);
 
   default User findUserWithRoleOrThrow(long id) {

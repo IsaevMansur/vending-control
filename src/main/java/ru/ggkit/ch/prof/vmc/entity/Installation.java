@@ -6,7 +6,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -35,7 +34,7 @@ public class Installation {
   @Nullable
   private Long id;
 
-  @ManyToOne(
+  @OneToOne(
       optional = false,
       fetch = FetchType.LAZY
   )
@@ -47,14 +46,4 @@ public class Installation {
 
   @Column(nullable = false)
   private LocalDate installedAt;
-
-  @Column(nullable = false)
-  private boolean isActive;
-
-  @OneToOne(
-      optional = false,
-      mappedBy = "installation"
-  )
-  @Nullable
-  private Income income;
 }

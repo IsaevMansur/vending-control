@@ -1,11 +1,11 @@
 package ru.ggkit.ch.prof.vmc.dto.create;
 
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
-public record PriceCreateDto(
-    @DecimalMin("0.01")
+public record IncomeCreateDto(
+    @Positive
     @NotNull
     BigDecimal value
 ) {

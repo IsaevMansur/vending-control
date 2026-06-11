@@ -25,7 +25,7 @@ public class DefaultUserService implements UserService {
   @Transactional
   public UserReadDto createUser(UserCreateDto dto) {
     User toSave = userMapper.createToUser(dto);
-    Role role = repoRole.findRole(dto.roleId());
+    Role role = repoRole.findRoleOrThrow(dto.roleId());
     toSave.setRole(role);
     User saved = repoUser.save(toSave);
     return userMapper.userToReadDto(saved);
@@ -46,7 +46,7 @@ public class DefaultUserService implements UserService {
     Role actualRole = user.getRole();
     if (Objects.nonNull(actualRole) && !Objects.equals(actualRole.getId(),
         userUpdateDto.roleId())) {
-      Role role = repoRole.findRole(userUpdateDto.roleId());
+      Role role = repoRole.findRoleOrThrow(userUpdateDto.roleId());
       user.setRole(role);
     }
   }
