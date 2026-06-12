@@ -6,9 +6,7 @@ public record MachineReadDto(
     long id,
     String mark,
     String model,
-    Set<PaymentTypeReadDto> paymentTypes,
-    InstallationReadDto installation,
-    IncomeReadDto income
+    Set<PaymentTypeReadDto> paymentTypes
 ) {
 
 }

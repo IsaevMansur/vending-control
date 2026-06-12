@@ -19,6 +19,7 @@ import ru.ggkit.ch.prof.vmc.entity.Machine;
 public interface MachineMapper {
 
 
+  @Mapping(target = "archived", ignore = true)
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "paymentTypes", ignore = true)
   Machine createDtoToMachine(MachineCreateDto machineCreateDto);

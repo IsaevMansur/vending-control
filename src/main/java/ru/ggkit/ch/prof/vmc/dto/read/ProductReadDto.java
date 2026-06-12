@@ -6,8 +6,7 @@ public record ProductReadDto(
     long id,
     String name,
     String description,
-    BigDecimal price,
-    InStockReadDto inStock
+    BigDecimal price
 ) {
 
 }
