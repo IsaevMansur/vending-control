@@ -15,9 +15,7 @@ public record MachineUpdateDto(
     String model,
     @Size(min = 1)
     @NotNull
-    Set<Long> paymentTypeIds,
-    InstallationUpdateDto installation,
-    IncomeUpdateDto income
+    Set<Long> paymentTypeIds
 ) {
 
 }

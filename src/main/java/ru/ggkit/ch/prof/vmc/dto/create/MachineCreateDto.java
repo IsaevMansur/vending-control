@@ -12,11 +12,7 @@ public record MachineCreateDto(
     String model,
     @Size(min = 1)
     @NotNull
-    Set<Long> paymentTypes,
-    @NotNull
-    InstallationCreateDto installation,
-    @NotNull
-    IncomeCreateDto income
+    Set<Long> paymentTypes
 ) {
 
 }

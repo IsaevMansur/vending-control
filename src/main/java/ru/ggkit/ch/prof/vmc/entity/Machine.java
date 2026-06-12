@@ -1,6 +1,5 @@
 package ru.ggkit.ch.prof.vmc.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.Set;
@@ -52,19 +50,6 @@ public class Machine {
   @Nullable
   private Set<PaymentType> paymentTypes;
 
-  @OneToOne(
-      cascade = CascadeType.ALL,
-      mappedBy = "machine",
-      orphanRemoval = true
-  )
-  @Nullable
-  private Installation installation;
-
-  @OneToOne(
-      optional = false,
-      mappedBy = "machine",
-      cascade = CascadeType.PERSIST
-  )
-  @Nullable
-  private Income income;
+  @Column(nullable = false)
+  private boolean archived;
 }

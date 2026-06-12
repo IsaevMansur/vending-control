@@ -6,11 +6,11 @@ import ru.ggkit.ch.prof.vmc.dto.update.MachineUpdateDto;
 
 public interface MachineService {
 
-  MachineReadDto createMachine(MachineCreateDto dto);
+  MachineReadDto saveMachine(MachineCreateDto dto);
 
   MachineReadDto findMachine(long id);
 
   void updateMachine(MachineUpdateDto dto);
 
-  void deleteMachine(long id);
+  void archiveMachine(long id);
 }

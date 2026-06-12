@@ -1,6 +1,5 @@
 package ru.ggkit.ch.prof.vmc.service;
 
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class DefaultMachineService implements MachineService {
 
   @Override
   @Transactional
-  public MachineReadDto createMachine(MachineCreateDto machineCreateDto) {
+  public MachineReadDto saveMachine(MachineCreateDto machineCreateDto) {
     Machine machine = machineMapper.createDtoToMachine(machineCreateDto);
     Set<PaymentType> paymentTypes = repoMachine.findAllPaymentTypesByIds(
         machineCreateDto.paymentTypes());
@@ -43,29 +42,25 @@ public class DefaultMachineService implements MachineService {
   @Override
   @Transactional
   public void updateMachine(MachineUpdateDto machineUpdateDto) {
-    Machine machine = repoMachine.findMachine(machineUpdateDto.id());
+    Machine machine = repoMachine.findMachineOrThrow(machineUpdateDto.id());
     Set<PaymentType> paymentTypes = repoMachine.findAllPaymentTypesByIds(
         machineUpdateDto.paymentTypeIds());
-    if (Objects.isNull(machine.getPaymentTypes())
-        || machine.getPaymentTypes().size() != paymentTypes.size()) {
-      updatePaymentTypes(machine, paymentTypes);
+    if (Objects.nonNull(machine.getPaymentTypes())) {
+      updatePaymentTypes(machine.getPaymentTypes(), paymentTypes);
     }
     machineMapper.updateMachineFromDto(machineUpdateDto, machine);
   }
 
   @Override
   @Transactional
-  public void deleteMachine(long id) {
-    repoMachine.deleteById(id);
+  public void archiveMachine(long id) {
+    repoMachine.archiveMachine(id);
   }
 
-  private void updatePaymentTypes(@NonNull Machine machine,
-      @NonNull Set<PaymentType> paymentTypes) {
-    if (Objects.isNull(machine.getPaymentTypes())) {
-      machine.setPaymentTypes(new HashSet<>(paymentTypes));
-      return;
-    }
-    machine.getPaymentTypes().clear();
-    machine.getPaymentTypes().addAll(paymentTypes);
+  private void updatePaymentTypes(
+      @NonNull Set<PaymentType> oldest,
+      @NonNull Set<PaymentType> newest) {
+    oldest.clear();
+    oldest.addAll(newest);
   }
 }

@@ -26,7 +26,7 @@ public class MachineController {
   @PostMapping
   public ResponseEntity<MachineReadDto> createMachine(
       @RequestBody @Valid MachineCreateDto machineCreateDto) {
-    MachineReadDto saved = machineService.createMachine(machineCreateDto);
+    MachineReadDto saved = machineService.saveMachine(machineCreateDto);
     return ResponseEntity.ok(saved);
   }
 
@@ -44,8 +44,8 @@ public class MachineController {
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<Void> deleteMachine(@PathVariable Long id) {
-    machineService.deleteMachine(id);
+  public ResponseEntity<Void> archiveMachine(@PathVariable Long id) {
+    machineService.archiveMachine(id);
     return ResponseEntity.ok().build();
   }
 }
