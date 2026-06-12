@@ -6,7 +6,7 @@ import ru.ggkit.ch.prof.vmc.dto.update.ProductUpdateDto;
 
 public interface ProductService {
 
-  ProductReadDto createProduct(ProductCreateDto request);
+  ProductReadDto saveProduct(ProductCreateDto request);
 
   ProductReadDto findProduct(long id);
 

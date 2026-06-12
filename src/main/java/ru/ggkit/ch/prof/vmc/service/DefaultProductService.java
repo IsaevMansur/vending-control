@@ -19,7 +19,7 @@ public class DefaultProductService implements ProductService {
 
   @Override
   @Transactional
-  public ProductReadDto createProduct(ProductCreateDto request) {
+  public ProductReadDto saveProduct(ProductCreateDto request) {
     Product product = productMapper.createDtoToProduct(request);
     Product saved = repoProduct.save(product);
     return productMapper.productToReadDto(saved);

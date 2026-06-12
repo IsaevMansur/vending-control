@@ -26,11 +26,17 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
   }
 
   @Query(
-      "select m as machine, p as product, pt as paymentType "
+      "select m as machine, p as product, pt as paymentType, i as income, is as inStock "
           + "from Machine m "
           + "join Product p "
           + "join PaymentType pt "
-          + "where m.id=:machineId and p.id=:productId and pt.id=:paymentTypeId"
+          + "join Income i "
+          + "join InStock is "
+          + "where m.id=:machineId "
+          + "and p.id=:productId "
+          + "and pt.id=:paymentTypeId "
+          + "and i.installation.machine.id=:machineId "
+          + "and is.product.id=:productId"
   )
   Optional<SaleProjection> findSaleRequiredProps(long machineId, long productId,
       long paymentTypeId);

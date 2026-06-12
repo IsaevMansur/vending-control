@@ -10,13 +10,14 @@ import ru.ggkit.ch.prof.vmc.entity.Income;
 @Mapper(componentModel = "spring")
 public interface IncomeMapper {
 
+  @Mapping(target = "installation", ignore = true)
   @Mapping(target = "id", ignore = true)
-  @Mapping(target = "machine", ignore = true)
   Income createDtoToIncome(IncomeCreateDto incomeCreateDto);
 
-  @Mapping(target = "machine", ignore = true)
+  @Mapping(target = "installation", ignore = true)
   @Mapping(target = "id", ignore = true)
   Income updateDtoToIncome(IncomeUpdateDto incomeUpdateDto);
 
+  @Mapping(target = "installationId", source = "income.installation.id")
   IncomeReadDto incomeToReadDto(Income income);
 }

@@ -5,7 +5,7 @@ import ru.ggkit.ch.prof.vmc.dto.read.SaleReadDto;
 
 public interface SaleService {
 
-  SaleReadDto createSale(SaleCreateDto saleCreateDto);
+  SaleReadDto saveSale(SaleCreateDto saleCreateDto);
 
   SaleReadDto findSale(long id);
 }

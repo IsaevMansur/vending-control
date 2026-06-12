@@ -6,7 +6,7 @@ import ru.ggkit.ch.prof.vmc.dto.update.UserUpdateDto;
 
 public interface UserService {
 
-  UserReadDto createUser(UserCreateDto dto);
+  UserReadDto saveUser(UserCreateDto dto);
 
 
   UserReadDto findUser(long id);

@@ -1,5 +1,7 @@
 package ru.ggkit.ch.prof.vmc.entity.projection;
 
+import ru.ggkit.ch.prof.vmc.entity.InStock;
+import ru.ggkit.ch.prof.vmc.entity.Income;
 import ru.ggkit.ch.prof.vmc.entity.Machine;
 import ru.ggkit.ch.prof.vmc.entity.PaymentType;
 import ru.ggkit.ch.prof.vmc.entity.Product;
@@ -11,4 +13,8 @@ public interface SaleProjection {
   Product getProduct();
 
   PaymentType getPaymentType();
+
+  Income getIncome();
+
+  InStock getInStock();
 }

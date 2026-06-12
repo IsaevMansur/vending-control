@@ -49,8 +49,8 @@ public class InStock {
   private Product product;
 
   @Column(nullable = false)
-  private int stock;
+  private Integer stock;
 
   @Column(nullable = false)
-  private int minimumStock;
+  private Integer minStock;
 }

@@ -7,7 +7,9 @@ import java.math.BigDecimal;
 public record IncomeCreateDto(
     @Positive
     @NotNull
-    BigDecimal value
+    BigDecimal value,
+    @Positive
+    long installationId
 ) {
 
 }

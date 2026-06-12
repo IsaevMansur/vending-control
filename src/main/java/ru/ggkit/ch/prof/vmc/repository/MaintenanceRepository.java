@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.ggkit.ch.prof.vmc.entity.Maintenance;
+import ru.ggkit.ch.prof.vmc.entity.projection.MaintenanceProjection;
 
 @Repository
 public interface MaintenanceRepository extends JpaRepository<Maintenance, Long> {
@@ -29,4 +30,20 @@ public interface MaintenanceRepository extends JpaRepository<Maintenance, Long> 
           + "where m.machine.id=:id"
   )
   Set<Maintenance> findAllForMachine(long id);
+
+  @Query(
+      "select m as machine, u as user "
+          + "from Maintenance "
+          + "join Machine m "
+          + "join User u "
+          + "where m.id=:machineId and u.id=:userId"
+  )
+  Optional<MaintenanceProjection> findMaintenanceRequiredProps(long machineId, long userId);
+
+  default MaintenanceProjection findMaintenanceRequiredPropsOrThrow(long machineId,
+      long userId) {
+    return findMaintenanceRequiredProps(machineId, userId).orElseThrow(
+        () -> new EntityNotFoundException(
+            "Required properties for create a maintenance not found"));
+  }
 }

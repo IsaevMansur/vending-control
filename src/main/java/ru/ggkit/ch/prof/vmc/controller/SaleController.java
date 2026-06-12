@@ -23,7 +23,7 @@ public class SaleController {
   @PostMapping
   public ResponseEntity<SaleReadDto> createSale(
       @RequestBody @Valid SaleCreateDto request) {
-    var saved = saleService.createSale(request);
+    var saved = saleService.saveSale(request);
     return ResponseEntity.ok(saved);
   }
 

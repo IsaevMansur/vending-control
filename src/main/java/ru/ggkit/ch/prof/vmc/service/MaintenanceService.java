@@ -6,7 +6,7 @@ import ru.ggkit.ch.prof.vmc.dto.read.MaintenanceReadDto;
 
 public interface MaintenanceService {
 
-  MaintenanceReadDto createMaintenance(MaintenanceCreateDto maintenanceCreateDto);
+  MaintenanceReadDto saveMaintenance(MaintenanceCreateDto maintenanceCreateDto);
 
   MaintenanceReadDto findMaintenance(long id);
 
