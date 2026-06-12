@@ -1,7 +1,10 @@
 package ru.ggkit.ch.prof.vmc.service;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ggkit.ch.prof.vmc.dto.create.MachineCreateDto;
@@ -43,8 +46,9 @@ public class DefaultMachineService implements MachineService {
     Machine machine = repoMachine.findMachine(machineUpdateDto.id());
     Set<PaymentType> paymentTypes = repoMachine.findAllPaymentTypesByIds(
         machineUpdateDto.paymentTypeIds());
-    if (machine.getPaymentTypes().size() != paymentTypes.size()) {
-      addPaymentTypes(machine, paymentTypes);
+    if (Objects.isNull(machine.getPaymentTypes())
+        || machine.getPaymentTypes().size() != paymentTypes.size()) {
+      updatePaymentTypes(machine, paymentTypes);
     }
     machineMapper.updateMachineFromDto(machineUpdateDto, machine);
   }
@@ -55,8 +59,12 @@ public class DefaultMachineService implements MachineService {
     repoMachine.deleteById(id);
   }
 
-  private void addPaymentTypes(Machine machine,
-      Set<PaymentType> paymentTypes) {
+  private void updatePaymentTypes(@NonNull Machine machine,
+      @NonNull Set<PaymentType> paymentTypes) {
+    if (Objects.isNull(machine.getPaymentTypes())) {
+      machine.setPaymentTypes(new HashSet<>(paymentTypes));
+      return;
+    }
     machine.getPaymentTypes().clear();
     machine.getPaymentTypes().addAll(paymentTypes);
   }

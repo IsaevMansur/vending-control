@@ -1,5 +1,6 @@
 package ru.ggkit.ch.prof.vmc;
 
+import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -23,7 +24,7 @@ public class DataInitializer implements ApplicationRunner {
   @Transactional
   public void run(@NonNull ApplicationArguments args) {
     if (!repoRole.existsRequiredRoles()) {
-      Set<Role> requiredRoles = getRequiredRoles();
+      List<Role> requiredRoles = getRequiredRoles();
       repoRole.saveAll(requiredRoles);
     }
     if (!repoPaymentType.existsRequiredTypes()) {
@@ -32,12 +33,12 @@ public class DataInitializer implements ApplicationRunner {
     }
   }
 
-  private Set<Role> getRequiredRoles() {
+  private List<Role> getRequiredRoles() {
     var admin = new Role();
     var simpleUser = new Role();
     admin.setName("ADMIN");
     simpleUser.setName("SIMPLE_USER");
-    return Set.of(admin, simpleUser);
+    return List.of(admin, simpleUser);
   }
 
   private Set<PaymentType> getRequiredPaymentTypes() {

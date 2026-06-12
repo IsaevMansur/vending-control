@@ -49,6 +49,7 @@ public class Machine {
       joinColumns = @JoinColumn(name = "machine_id"),
       inverseJoinColumns = @JoinColumn(name = "payment_type_id")
   )
+  @Nullable
   private Set<PaymentType> paymentTypes;
 
   @OneToOne(
@@ -56,6 +57,7 @@ public class Machine {
       mappedBy = "machine",
       orphanRemoval = true
   )
+  @Nullable
   private Installation installation;
 
   @OneToOne(

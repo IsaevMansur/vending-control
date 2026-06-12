@@ -51,5 +51,6 @@ public class Product {
       mappedBy = "product",
       orphanRemoval = true
   )
+  @Nullable
   private InStock inStock;
 }

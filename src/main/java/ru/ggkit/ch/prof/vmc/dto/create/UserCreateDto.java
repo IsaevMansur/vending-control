@@ -14,7 +14,7 @@ public record UserCreateDto(
     String patronymic,
     @NotNull
     @Valid
-    ContactInfoCreateDto contactData,
+    ContactInfoCreateDto contactInfo,
     @Positive
     long roleId
 ) {

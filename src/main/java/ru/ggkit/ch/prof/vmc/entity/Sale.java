@@ -9,7 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,7 +49,6 @@ public class Sale {
   private Product product;
 
   @Column(nullable = false)
-  @Min(1)
   private int soldCount;
 
   @Column(nullable = false)

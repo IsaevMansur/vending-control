@@ -12,13 +12,15 @@ import ru.ggkit.ch.prof.vmc.entity.Machine;
     componentModel = "spring",
     uses = {
         InstallationMapper.class,
-        IncomeMapper.class
+        IncomeMapper.class,
+        PaymentTypeMapper.class
     }
 )
 public interface MachineMapper {
 
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "paymentTypes", ignore = true)
   Machine createDtoToMachine(MachineCreateDto machineCreateDto);
 
   MachineReadDto machineToReadDto(Machine machine);

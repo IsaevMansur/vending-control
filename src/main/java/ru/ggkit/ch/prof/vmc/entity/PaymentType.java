@@ -41,8 +41,10 @@ public class PaymentType {
   private String name;
 
   @ManyToMany(mappedBy = "paymentTypes")
+  @Nullable
   private Set<Machine> machines;
 
   @OneToMany(mappedBy = "paymentType")
+  @Nullable
   private Set<Sale> sales;
 }

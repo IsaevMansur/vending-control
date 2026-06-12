@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 @Entity
@@ -36,6 +37,7 @@ public class User {
   private Long id;
 
   @Column(nullable = false)
+  @NonNull
   private String surname;
 
   @Column(nullable = false)
@@ -51,7 +53,7 @@ public class User {
       cascade = CascadeType.ALL
   )
   @Nullable
-  private ContactInfo contacts;
+  private ContactInfo contactInfo;
 
   @ManyToOne(
       fetch = FetchType.LAZY,
